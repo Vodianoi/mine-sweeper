@@ -15,27 +15,35 @@ class TestMinesweeper(unittest.TestCase):
         self.assertEqual(minesweeper("*."), "*1")
         self.assertEqual(minesweeper(".*."), "1*1")
         self.assertEqual(minesweeper("*.*"), "*2*")
+        self.assertEqual(minesweeper("*..*.*..*....*"), "*11*2*11*1001*")
+        # self.assertEqual(minesweeper("*..\n..*"), "*21\n12*")
+
+    # def final_test(self):
+    #     self.assertEqual(minesweeper("*...\n....\n.*..\n...."), "*100\n2210\n1*10\n1110")
+    #     self.assertEqual(minesweeper("**...\n.....\n.*..."), "**100\n33200\n1*100")
 
 
 def minesweeper(field):
     lines = field.split('\n')
-    solved_lines = []
-    for line in lines:
-        solved_lines.append(solve_line(line))
+    solved_lines = solve_lines(lines)
 
     return "\n".join(solved_lines)
 
 
-def solve_line(line):
-    solved_line = ""
-    for x in range(len(line)):
-        if is_mine(line, x):
-            solved_line += "*"
-        else:
-            nb_mine = count_mines_around(x, line)
+def solve_lines(lines):
 
-            solved_line += str(nb_mine)
-    return solved_line
+    solved_lines = []
+    for line in lines:
+        solved_line = ""
+        for x in range(len(line)):
+            if is_mine(line, x):
+                solved_line += "*"
+            else:
+                nb_mine = count_mines_around(x, line)
+
+                solved_line += str(nb_mine)
+        solved_lines.append(solved_line)
+    return solved_lines
 
 
 def count_mines_around(x, line):
