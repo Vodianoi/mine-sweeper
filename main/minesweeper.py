@@ -7,16 +7,21 @@ def minesweeper(field):
 def solve_lines(lines):
     solved_lines = []
     for y in range(len(lines)):
-        solved_line = ""
-        line = lines[y]
-        for x in range(len(line)):
-            if is_mine(x, y, lines):
-                solved_line += "*"
-            else:
-                nb_mine = count_mines_around(x, y, lines)
-                solved_line += str(nb_mine)
+        solved_line = solve_single_line(lines, y)
         solved_lines.append(solved_line)
     return solved_lines
+
+
+def solve_single_line(lines, y):
+    line = lines[y]
+    solved_line = ""
+    for x in range(len(line)):
+        if is_mine(x, y, lines):
+            solved_line += "*"
+        else:
+            nb_mine = count_mines_around(x, y, lines)
+            solved_line += str(nb_mine)
+    return solved_line
 
 
 def count_mines_around(x, y, lines):
